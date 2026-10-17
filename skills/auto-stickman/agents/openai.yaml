@@ -1,0 +1,7 @@
+interface:
+  display_name: "AutoStickMan"
+  short_description: "Create fact-checked stickman flipbook videos"
+  default_prompt: "Use $auto-stickman to turn this idea or script into a fact-checked vertical stickman flipbook video."
+policy:
+  allow_implicit_invocation: true
+

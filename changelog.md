@@ -1,0 +1,26 @@
+# Changelog
+
+## 2026-10-17T18:43:43+00:00 — AutoStickMan packaging start
+
+- Objective: package the existing Tesla Roadster stickman flipbook workflow as a private GitHub repository named `AutoStickMan`, make it installable as an agent skill, preserve the existing media and workflow, support a user-supplied style reference with the exact stickman image as the default, require web fact-checking for every story, and add an optional Composio-based social publishing path.
+- Starting state: the workspace had no commits and contained the existing Tesla Roadster workflow, generated standalone frames, Brian voice clips, rendered MP4, older Turbo/Stickman experiments, and generation/render scripts. No `changelog.md` existed.
+- Instructions read: `/Users/admin/.codex/skills/changelog/SKILL.md`, `/Users/admin/.codex/skills/.system/skill-creator/SKILL.md`, and `/Users/admin/.agents/skills/composio-cli/SKILL.md`.
+- Preservation rule: existing media and workflow files will remain unchanged; new skill, packaging, documentation, and automation files will be added around them.
+- Open implementation items: design the installable skill contract, add deterministic research/script/frame/audio/render helpers, document Composio connection and publish behavior without storing credentials, validate the skill, create the private GitHub repository, commit, push, and verify the remote.
+
+## 2026-10-17T18:48:34+00:00 — Skill package and automation implemented
+
+- Added the installable skill at `skills/auto-stickman/SKILL.md` with `agents/openai.yaml`. It requires a custom-reference-or-default decision, preserves exact opening lines, performs web research before narration, separates established science from published claims and unverified proposals, generates standalone frames, uses Brian voice by default, renders a preview-first MP4, and requires explicit approval before public publishing.
+- Added deterministic tools: `scripts/create_project.py`, `scripts/generate_brian_audio.py`, `scripts/render_flipbook.py`, and `scripts/publish_instagram.py`.
+- Added supporting documentation: `README.md`, `config.example.toml`, `references/fact_checking.md`, `references/composio-instagram.md`, and `references/manifest.md`.
+- Added `assets/default_style_reference.png`, copied from the exact supplied stickman reference. Added `examples/tesla_roadster/` with the existing 13-frame sample, Brian clips, workflow, manifest, captions, contact sheet, and finished MP4. Existing root Tesla files were left unchanged.
+- Composio discovery confirmed the Instagram tools `INSTAGRAM_GET_USER_INFO`, `INSTAGRAM_POST_IG_USER_MEDIA`, and `INSTAGRAM_POST_IG_USER_MEDIA_PUBLISH`. The adapter uses local `video_file` upload, `REELS`, account verification, processing wait, and no credential storage.
+
+## 2026-10-17T18:49:00+00:00 — Validation
+
+- `python3 -m py_compile scripts/*.py`: passed.
+- `python3 /Users/admin/.codex/skills/.system/skill-creator/scripts/quick_validate.py skills/auto-stickman`: passed with `Skill is valid!`.
+- `python3 scripts/create_project.py --name smoke-test --output /tmp/autostickman-smoke-project --force`: passed and created the expected scaffold.
+- `python3 scripts/publish_instagram.py --video examples/tesla_roadster/tesla_roadster_stickman_movie_brian.mp4 --caption 'Smoke test only'`: passed safe dry-run; no public action performed.
+- `python3 scripts/render_flipbook.py --manifest examples/tesla_roadster/storyboard.json --output /tmp/autostickman-render-smoke.mp4`: passed; output verified as 720x1280, 24 fps, H.264 video plus AAC audio, 99.004 seconds.
+- Remaining work: stage the canonical package and Tesla example, create the private `aiwithenoch/AutoStickMan` GitHub repository, push, and verify the remote URL and private visibility.

@@ -1,0 +1,22 @@
+.DS_Store
+__pycache__/
+*.py[cod]
+.autostickman/
+*.log
+
+# Local render intermediates; canonical example files live under examples/.
+tesla_roadster_stickman_frames/rendered_segments/
+tesla_roadster_stickman_frames/tesla_video_only.mp4
+tesla_roadster_stickman_frames/tesla_narration.m4a
+tesla_roadster_stickman_frames/video_concat.txt
+tesla_roadster_stickman_frames/tesla_captions.srt
+tesla_roadster_qc_*.png
+tesla_roadster_stickman_contact_sheet.jpg
+
+# Older exploratory outputs remain in the workspace but are not part of the
+# installable skill package.
+precise_storyboard_frames/
+turbo_*
+stickman_*
+generate_turbo_audio.sh
+

@@ -1,0 +1,73 @@
+1
+00:00:00,000 --> 00:00:04,088
+So, how does a Tesla Roadster work? Let me explain.
+
+2
+00:00:04,128 --> 00:00:11,744
+First, it is still an electric car. Energy stored in the
+battery travels through power electronics to the
+electric motors.
+
+3
+00:00:11,784 --> 00:00:16,136
+The motors turn the wheels, producing torque immediately
+at low speed.
+
+4
+00:00:16,176 --> 00:00:25,376
+That helps explain the advertised acceleration. But
+Tesla's numbers are published claims, not a result we
+are independently testing here.
+
+5
+00:00:25,416 --> 00:00:34,832
+The Roadster also uses active aerodynamics. Tesla
+describes a multi-mode suction system and active wings
+that move air to increase downforce.
+
+6
+00:00:34,872 --> 00:00:40,544
+More downforce can push the tires into the road and
+improve grip, especially in corners.
+
+7
+00:00:40,584 --> 00:00:45,656
+But downforce is not anti-gravity. It helps the tires
+grip the road.
+
+8
+00:00:45,696 --> 00:00:54,584
+The unusual part is the announced SpaceX-inspired
+system. A cold-gas thruster stores gas under pressure
+and releases it through a nozzle.
+
+9
+00:00:54,624 --> 00:01:01,208
+The gas moves one way, and the car receives a reaction
+force the other way. That is Newton's third law.
+
+10
+00:01:01,248 --> 00:01:07,424
+With several thrusters placed around the vehicle, timed
+pulses could create a short push or a rotation.
+
+11
+00:01:07,464 --> 00:01:13,040
+The gas supply is limited, so the thrust would be brief,
+and the car would return to the road.
+
+12
+00:01:13,080 --> 00:01:24,392
+Tesla describes the Rocket configuration as flight-
+capable, but not for public roads. That claim still
+needs a demonstrated, independently verified production
+result.
+
+13
+00:01:24,432 --> 00:01:38,984
+So the simple picture is: battery power drives the
+wheels, aerodynamics help the tires grip, and
+pressurized gas creates brief reaction forces. The
+physics is real; final production performance still has
+to be demonstrated.
+

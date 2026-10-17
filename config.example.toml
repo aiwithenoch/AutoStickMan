@@ -1,0 +1,23 @@
+[project]
+default_reference = "assets/default_style_reference.png"
+aspect_ratio = "9:16"
+width = 720
+height = 1280
+fps = 24
+
+[voice]
+provider = "edge-tts"
+voice = "en-US-BrianNeural"
+rate = "+0%"
+pitch = "-1Hz"
+
+[render]
+burn_subtitles = false
+crf = 19
+
+[publish]
+platform = "instagram"
+media_type = "REELS"
+share_to_feed = true
+enabled = false
+
