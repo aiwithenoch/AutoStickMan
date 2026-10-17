@@ -76,3 +76,56 @@
 - Committed as `a40a9f079cdf369890fde750c7eb0ec99d2c43ab` (`Use one responsive YouTube storyboard image`) and pushed to `origin/main`.
 - Verified GitHub's stored README contains the new `assets/youtube_style_storyboard.png` embed and the inline video attachment, with no vertical scene or contact-sheet embeds.
 - Verified the authenticated GitHub-rendered page has exactly one matching storyboard `<img>` and one `<video>` element; the local and remote branches are synchronized and clean.
+
+## 2026-10-17T19:21:01+00:00 — Captioned video implementation started
+
+- Objective: apply the user-approved caption treatment to the existing Tesla Roadster flipbook video while preserving the original MP4. The approved treatment is plain black bold text directly on the artwork, no surrounding box, positioned low in the frame, with no more than five words visible at once.
+- Starting state: `scripts/render_flipbook.py` created one full-scene subtitle cue per audio clip and used a boxed subtitle style near the bottom. `examples/tesla_roadster/storyboard.json` kept captions disabled and stored full narration in each caption field. The repository was clean and synchronized with `origin/main` at commit `a40a9f0`.
+- Planned changes: add deterministic five-word caption chunking with timing distributed across each scene's measured audio duration; add manifest-level typography and placement controls; enable the approved treatment for the Tesla example; render a separate captioned MP4 and inspect both its subtitle timing and visual placement.
+- Preservation and release decision: the original `tesla_roadster_stickman_movie_brian.mp4` will remain unchanged. The captioned MP4 will be reviewed locally before any README or GitHub attachment is changed.
+
+## 2026-10-17T19:21:34+00:00 — Caption renderer updated
+
+- Changed `scripts/render_flipbook.py`: replaced full-scene subtitle cues with deterministic caption chunks capped by `caption_max_words` (default five), and proportionally distributed each chunk across the measured scene audio duration. Added manifest-controlled font, size, and vertical placement. The burned style is now bold black text with a subtle cream outline, `BorderStyle=1` (no box), centered low in the frame.
+- Changed `scripts/create_project.py` and `references/manifest.md` to document and scaffold the new caption controls. Changed `examples/tesla_roadster/storyboard.json` to enable the approved treatment for the Tesla sample without changing its narration or artwork.
+- Changed `skills/auto-stickman/SKILL.md` to make the approved caption behavior explicit after review approval while retaining the review-first workflow.
+- Verification: `git diff --check` passed; `python3 -m py_compile scripts/render_flipbook.py scripts/create_project.py` passed. Full video rendering and visual inspection are next.
+
+## 2026-10-17T19:22:59+00:00 — Caption placement correction
+
+- First render completed as `examples/tesla_roadster/tesla_roadster_stickman_movie_brian_captioned.mp4`, but visual inspection of `/tmp/autostickman-caption-preview.png` showed the initial `FontSize=30, MarginV=160` values were interpreted through the subtitle renderer's coordinate system: the text was oversized, wrapped into three lines, and appeared too high over the artwork.
+- Correction: reduced the renderer and Tesla manifest defaults to `caption_font_size=10` and `caption_margin_v=28`, preserving the same bold black/no-box/cream-outline treatment. The first caption text was also cleaned to match the approved preview wording: `So how does a Tesla`.
+- The first render was not treated as final and will be overwritten by a corrected render. The original uncaptioned MP4 remains unchanged.
+
+## 2026-10-17T19:24:03+00:00 — Captioned video rendered and verified
+
+- Rendered the corrected video to `examples/tesla_roadster/tesla_roadster_stickman_movie_brian_captioned.mp4` and its sidecar subtitles to `examples/tesla_roadster/tesla_roadster_stickman_movie_brian_captioned.srt`. The original `examples/tesla_roadster/tesla_roadster_stickman_movie_brian.mp4` was not modified.
+- Verification passed: `python3 -m py_compile scripts/render_flipbook.py scripts/create_project.py`; caption validation found 53 cues with `max_words=5`; `ffprobe` reported H.264/AAC, 720x1280, 24 fps, and 99.004 seconds; `git diff --check` passed; the original MP4 has no diff. Visual checks at the opening, battery, aerodynamics, and recap scenes confirmed low placement, no box, and readable bold black text with the subtle cream outline.
+- Current state: local captioned MP4 is ready for user review and was opened in Codex. Caption code, manifest controls, documentation, and changelog are modified but not committed or pushed yet.
+- Deferred intentionally: replacing the GitHub README's existing inline video and uploading the captioned MP4 will happen after the user approves this full-video review, so the public/private repository preview does not change prematurely.
+- Next step after approval: add the captioned MP4 to the repository, upload a new GitHub-native video attachment, update README references, commit, push, and verify the private repository's inline player.
+
+## 2026-10-17T19:25:22+00:00 — Caption synchronization correction started
+
+- Objective: correct the caption timing after user review identified that the proportional scene timing does not match Brian's actual speech pauses and word cadence.
+- Diagnosis: the existing renderer splits each scene's text evenly by word count over the total audio duration. That guarantees a five-word maximum but cannot follow pauses, emphasis, or unequal word durations.
+- Planned fix: obtain word-level timestamps from the real per-scene Brian audio, generate five-word-or-fewer cues from those timestamps, preserve the approved visual style, rerender a separate synchronized MP4, and validate the generated cue boundaries against the source audio durations.
+- Preservation: the original uncaptioned MP4 and the previous captioned MP4 will remain available until the synchronized version is verified.
+
+## 2026-10-17T19:46:44+00:00 — Voice-synchronized captions completed
+
+- Failed approach recorded: the first local WhisperX attempt (`transcribe-anything --model base.en --device whisperx --timestamp word ...`) could not start because its first-run dependency install failed to download `av==18.1.0` after DNS/network retries. No project media was changed by that attempt.
+- Successful approach: `scripts/generate_word_timings.py` uses the existing Edge TTS package with the exact `en-US-BrianNeural`, `+0%`, `-1Hz`, and per-scene narration settings to retrieve `WordBoundary` events. It wrote `examples/tesla_roadster/word_timings.json` for all 13 scenes and checked the timing against each existing audio duration.
+- Renderer change: `scripts/render_flipbook.py` now accepts `--word-timings` and automatically reads the manifest's `word_timings` file. When present, each caption cue begins at the first spoken word and ends at the last spoken word in that cue; the five-word limit and approved visual style remain unchanged. Proportional timing remains the fallback when no timing file is supplied.
+- Output: rendered `examples/tesla_roadster/tesla_roadster_stickman_movie_brian_captioned_synced.mp4` and `..._captioned_synced.srt`, leaving both previous MP4s unchanged.
+- Verification passed: 53 cues, maximum five words per cue, maximum SRT-vs-word-boundary difference `0.001s`, H.264/AAC, 720x1280, 24 fps, 99.004 seconds, and `git diff --check`. The synchronized MP4 was opened in Codex for review.
+- Current state: synchronized local version is ready for the user. GitHub has not been updated and the new files are not committed yet, pending confirmation that this timing now matches the voice.
+
+## 2026-10-17T19:58:17+00:00 — AutoStickMan skill package updated
+
+- Objective: make voice-synchronized captions part of the installable skill and update the private repository's sample to demonstrate the corrected behavior.
+- Added `scripts/generate_word_timings.py`, which retrieves Edge TTS `WordBoundary` events using the same voice/rate/pitch/narration configuration as the generated audio. Updated `scripts/render_flipbook.py` to consume the resulting JSON automatically from the manifest and fail clearly on missing scene timing entries or word-count mismatches.
+- Updated `skills/auto-stickman/SKILL.md`, `references/manifest.md`, `scripts/create_project.py`, and both README files with the required timing step and the approved five-word, no-box caption treatment. Added `examples/tesla_roadster/word_timings.json`, the synchronized MP4, and the synchronized SRT to the package. The prior proportional-timing captioned files remain untracked locally for comparison and are intentionally excluded from the commit.
+- GitHub sample upload: the first raw upload request failed with `Invalid name for request` because it supplied the wrong repository identifier/form. The corrected request used the numeric REST repository ID, filename/content-type query parameters, and raw MP4 bytes; it succeeded with attachment URL `https://github.com/user-attachments/assets/1eb85865-25a0-4848-b268-0e144980f31a`. A HEAD check returned the authenticated GitHub user-asset redirect for the MP4.
+- Verification before commit: Python compilation passed for all scripts; skill quick validation returned `Skill is valid!`; project scaffold smoke test produced `word_timings: word_timings.json`; `git diff --check` passed; README references point to the synchronized attachment and download; the local synchronized render already passed 53-cue, five-word, 0.001-second boundary validation and H.264/AAC media checks.
+- Next step: stage only the intended skill, documentation, timing data, synchronized media, and changelog files; commit and push to `origin/main`; verify remote commit and private repository state.

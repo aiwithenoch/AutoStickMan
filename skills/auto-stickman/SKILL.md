@@ -80,17 +80,22 @@ Ask image generation for key poses and diagrams, not for a complete video. Add d
 
 Use `en-US-BrianNeural` with Edge TTS by default when it is available. Generate separate audio clips per scene so the renderer can time each frame to its narration. If the requested voice is unavailable, report that before substituting another voice.
 
+After audio generation, run `scripts/generate_word_timings.py` for the manifest. It uses the same Edge TTS voice, rate, pitch, and narration text to retrieve word-boundary timings for the generated clips. Pass the resulting `word_timings.json` through the manifest so captions follow the real speech cadence, including pauses, instead of being divided evenly across a scene. Do not treat proportional scene timing as voice synchronization.
+
 ### 5. Render and QA
 
 Create a manifest following `references/manifest.md`, then render it:
 
 ```bash
+python3 scripts/generate_word_timings.py \
+  --manifest project/storyboard.json
+
 python3 scripts/render_flipbook.py \
   --manifest project/storyboard.json \
   --output project/output/story.mp4
 ```
 
-The renderer creates a 24 fps 9:16 H.264/AAC animatic with a restrained camera move on each held drawing. It also writes an `.srt` file. Burn captions only when they do not cover the artwork; the default is to keep captions separate.
+The renderer creates a 24 fps 9:16 H.264/AAC animatic with a restrained camera move on each held drawing. It also writes an `.srt` file. Keep captions separate while the user is reviewing them; after approval, burn them directly onto the artwork with no box, using bold black text, a subtle cream outline, low placement, and no more than five words visible at once.
 
 Check:
 
@@ -108,4 +113,3 @@ This renderer is a keyframe animatic. For smoother motion, add two to six in-bet
 Only publish after the user has reviewed the MP4 and explicitly approved the account, caption, and public action. Use `scripts/publish_instagram.py` with a connected Composio Instagram account. Read `references/composio-instagram.md` first.
 
 Do not place tokens, cookies, API keys, or private account data in the repository, prompts, logs, or manifest files.
-

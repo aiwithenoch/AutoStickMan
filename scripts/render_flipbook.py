@@ -5,9 +5,9 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import subprocess
 import tempfile
-import textwrap
 from pathlib import Path
 
 
@@ -38,11 +38,50 @@ def subtitle_path_value(path: Path) -> str:
     return str(path).replace("\\", "\\\\").replace(":", "\\:").replace("'", "\\'")
 
 
+def write_timed_captions(
+    handle,
+    caption: str,
+    start: float,
+    duration: float,
+    max_words: int,
+    sequence: int,
+    word_timings: list[dict] | None = None,
+) -> int:
+    words = re.findall(r"\S+", caption.strip())
+    if not words:
+        return sequence
+    if word_timings is not None and len(word_timings) != len(words):
+        raise SystemExit(
+            f"Word timing count ({len(word_timings)}) does not match caption word count ({len(words)})"
+        )
+
+    for first_word in range(0, len(words), max_words):
+        last_word = min(first_word + max_words, len(words))
+        chunk = " ".join(words[first_word:last_word])
+        if word_timings is not None:
+            chunk_start = start + float(word_timings[first_word]["start"])
+            chunk_end = start + float(word_timings[last_word - 1]["end"])
+        else:
+            word_count = len(words)
+            chunk_start = start + duration * first_word / word_count
+            chunk_end = start + duration * last_word / word_count
+            if last_word == len(words):
+                chunk_end -= 0.04
+
+        handle.write(f"{sequence}\n")
+        handle.write(f"{timestamp(chunk_start)} --> {timestamp(chunk_end)}\n")
+        handle.write(f"{chunk}\n\n")
+        sequence += 1
+
+    return sequence
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--manifest", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--burn-subtitles", action="store_true")
+    parser.add_argument("--word-timings", type=Path, help="Optional Edge TTS word timing JSON")
     parser.add_argument("--crf", type=int, default=19)
     args = parser.parse_args()
 
@@ -52,9 +91,23 @@ def main() -> int:
     width = int(manifest.get("width", 720))
     height = int(manifest.get("height", 1280))
     fps = int(manifest.get("fps", 24))
+    max_caption_words = int(manifest.get("caption_max_words", 5))
+    if max_caption_words < 1:
+        raise SystemExit("caption_max_words must be at least 1")
     scenes = manifest.get("scenes", [])
     if not scenes:
         raise SystemExit("Manifest has no scenes")
+
+    word_timings = None
+    timing_path = args.word_timings
+    if timing_path is None and manifest.get("word_timings"):
+        timing_path = project / manifest["word_timings"]
+    if timing_path is not None:
+        timing_path = timing_path.resolve()
+        if not timing_path.is_file():
+            raise SystemExit(f"Word timing file does not exist: {timing_path}")
+        timing_data = json.loads(timing_path.read_text(encoding="utf-8"))
+        word_timings = {scene["id"]: scene["words"] for scene in timing_data.get("scenes", [])}
 
     resolved = []
     for index, scene in enumerate(scenes, start=1):
@@ -71,12 +124,22 @@ def main() -> int:
     subtitle_file = args.output.with_suffix(".srt")
     with subtitle_file.open("w", encoding="utf-8") as handle:
         elapsed = 0.0
-        for index, (scene, _, _, scene_duration) in enumerate(resolved, start=1):
+        sequence = 1
+        for scene, _, _, scene_duration in resolved:
             caption = scene.get("caption") or scene.get("narration")
             if caption:
-                handle.write(f"{index}\n")
-                handle.write(f"{timestamp(elapsed)} --> {timestamp(elapsed + scene_duration - 0.04)}\n")
-                handle.write(f"{textwrap.fill(caption, width=56)}\n\n")
+                if word_timings is not None and scene["id"] not in word_timings:
+                    raise SystemExit(f"Word timing file has no entry for scene {scene['id']}")
+                scene_word_timings = word_timings.get(scene["id"]) if word_timings is not None else None
+                sequence = write_timed_captions(
+                    handle,
+                    caption,
+                    elapsed,
+                    scene_duration,
+                    max_caption_words,
+                    sequence,
+                    scene_word_timings,
+                )
             elapsed += scene_duration
 
     with tempfile.TemporaryDirectory(prefix="autostickman-") as temp_dir_name:
@@ -120,10 +183,14 @@ def main() -> int:
             "ffmpeg", "-y", "-loglevel", "error", "-i", str(video_only), "-i", str(narration),
         ]
         if args.burn_subtitles or manifest.get("burn_subtitles", False):
+            font_name = manifest.get("caption_font_name", "Arial")
+            font_size = int(manifest.get("caption_font_size", 10))
+            margin_v = int(manifest.get("caption_margin_v", 28))
             style = (
-                "FontName=Arial,FontSize=14,PrimaryColour=&H001B1B1B,"
-                "OutlineColour=&H00F7F3E8,BorderStyle=3,Outline=3,Shadow=0,"
-                "MarginV=32,Alignment=2"
+                f"FontName={font_name},FontSize={font_size},Bold=1,"
+                "PrimaryColour=&H001B1B1B,OutlineColour=&H00F7F3E8,"
+                "BorderStyle=1,Outline=2,Shadow=0,"
+                f"MarginL=40,MarginR=40,MarginV={margin_v},Alignment=2,WrapStyle=0"
             )
             command.extend(["-vf", f"subtitles='{subtitle_path_value(subtitle_file)}':force_style='{style}'"])
         command.extend([
@@ -141,4 +208,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

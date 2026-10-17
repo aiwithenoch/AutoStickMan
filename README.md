@@ -16,9 +16,9 @@ This is the single horizontal storyboard image for the YouTube version. It is re
 
 ### Inline sample video
 
-The complete sample is attached to GitHub so it renders as a player directly on this README. Use the controls in the player; it does not open the repository file viewer:
+The complete sample uses captions synchronized to the actual Brian voice word boundaries. It is attached to GitHub so it renders as a player directly on this README. Use the controls in the player; it does not open the repository file viewer:
 
-https://github.com/user-attachments/assets/2acaea92-e071-4d3a-a22e-e74cfaade0ab
+https://github.com/user-attachments/assets/1eb85865-25a0-4848-b268-0e144980f31a
 
 The exact default generation reference is still preserved at `assets/default_style_reference.png`, but the README uses only the single YouTube-style image above.
 
@@ -43,8 +43,9 @@ If the agent is already working inside this repository, it can read `skills/auto
 4. Converts the story into a scene-by-scene storyboard with one standalone frame per beat.
 5. Uses the available image-generation tool with the chosen reference image.
 6. Generates `en-US-BrianNeural` narration by default when Edge TTS is available.
-7. Uses the included renderer to make a 9:16 H.264/AAC flipbook animatic.
-8. Optionally publishes an approved MP4 as an Instagram Reel through Composio.
+7. Generates Edge TTS word timings so captions follow the voice's real cadence and pauses.
+8. Uses the included renderer to make a 9:16 H.264/AAC flipbook animatic.
+9. Optionally publishes an approved MP4 as an Instagram Reel through Composio.
 
 Generation is preview-first. Instagram publishing is never triggered merely because a video was generated; it requires a connected account and an explicit publish action.
 
@@ -59,8 +60,11 @@ python3 scripts/create_project.py --name my-story --script ./story.md
 Render a completed manifest whose scenes already have frame and audio files:
 
 ```bash
+python3 scripts/generate_word_timings.py \
+  --manifest projects/my-story/storyboard.json
+
 python3 scripts/render_flipbook.py \
-  --manifest projects/my-story/manifest.json \
+  --manifest projects/my-story/storyboard.json \
   --output projects/my-story/output/my-story.mp4
 ```
 
@@ -78,8 +82,10 @@ The publish command is intentionally explicit. It does not store credentials in 
 
 ## Included example
 
-`examples/tesla_roadster/` contains the complete reference run: researched workflow, 13 standalone frames, Brian voice clips, synchronized captions, and the finished video.
+`examples/tesla_roadster/` contains the complete reference run: researched workflow, 13 standalone frames, Brian voice clips, `word_timings.json`, synchronized captions, and the finished video.
 
-[Download the repository copy of the Tesla Roadster MP4](examples/tesla_roadster/tesla_roadster_stickman_movie_brian.mp4)
+[Download the synchronized Tesla Roadster MP4](examples/tesla_roadster/tesla_roadster_stickman_movie_brian_captioned_synced.mp4)
+
+[Download the original uncaptioned source MP4](examples/tesla_roadster/tesla_roadster_stickman_movie_brian.mp4)
 
 The original working files are preserved in the workspace; this repository adds the reusable package around them.

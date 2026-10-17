@@ -47,6 +47,11 @@ def main() -> int:
         "height": 1280,
         "fps": 24,
         "burn_subtitles": False,
+        "caption_max_words": 5,
+        "caption_font_name": "Arial",
+        "caption_font_size": 10,
+        "caption_margin_v": 28,
+        "word_timings": "word_timings.json",
         "reference": "assets/reference.png",
         "scenes": [],
     }
@@ -69,4 +74,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

@@ -1,0 +1,211 @@
+1
+00:00:00,050 --> 00:00:01,500
+So how does a Tesla
+
+2
+00:00:01,512 --> 00:00:03,762
+Roadster work? Let me explain.
+
+3
+00:00:04,203 --> 00:00:05,366
+First, it is still an
+
+4
+00:00:05,378 --> 00:00:07,753
+electric car. Energy stored in
+
+5
+00:00:07,766 --> 00:00:09,428
+the battery travels through power
+
+6
+00:00:09,440 --> 00:00:11,416
+electronics to the electric motors.
+
+7
+00:00:11,859 --> 00:00:13,272
+The motors turn the wheels,
+
+8
+00:00:13,296 --> 00:00:15,246
+producing torque immediately at low
+
+9
+00:00:15,259 --> 00:00:15,809
+speed.
+
+10
+00:00:16,251 --> 00:00:18,376
+That helps explain the advertised
+
+11
+00:00:18,388 --> 00:00:20,826
+acceleration. But Tesla's numbers are
+
+12
+00:00:20,838 --> 00:00:23,201
+published claims, not a result
+
+13
+00:00:23,213 --> 00:00:25,051
+we are independently testing here.
+
+14
+00:00:25,491 --> 00:00:27,578
+The Roadster also uses active
+
+15
+00:00:27,603 --> 00:00:30,503
+aerodynamics. Tesla describes a multi-mode
+
+16
+00:00:30,516 --> 00:00:32,378
+suction system and active wings
+
+17
+00:00:32,391 --> 00:00:33,778
+that move air to increase
+
+18
+00:00:33,791 --> 00:00:34,491
+downforce.
+
+19
+00:00:34,972 --> 00:00:36,460
+More downforce can push the
+
+20
+00:00:36,472 --> 00:00:37,922
+tires into the road and
+
+21
+00:00:37,934 --> 00:00:40,210
+improve grip, especially in corners.
+
+22
+00:00:40,659 --> 00:00:43,034
+But downforce is not anti-gravity.
+
+23
+00:00:43,396 --> 00:00:44,747
+It helps the tires grip
+
+24
+00:00:44,759 --> 00:00:45,334
+the road.
+
+25
+00:00:45,759 --> 00:00:47,134
+The unusual part is the
+
+26
+00:00:47,146 --> 00:00:50,521
+announced SpaceX-inspired system. A cold-gas
+
+27
+00:00:50,534 --> 00:00:52,546
+thruster stores gas under pressure
+
+28
+00:00:52,558 --> 00:00:53,684
+and releases it through a
+
+29
+00:00:53,696 --> 00:00:54,271
+nozzle.
+
+30
+00:00:54,699 --> 00:00:56,087
+The gas moves one way,
+
+31
+00:00:56,374 --> 00:00:57,562
+and the car receives a
+
+32
+00:00:57,574 --> 00:00:59,062
+reaction force the other way.
+
+33
+00:00:59,449 --> 00:01:00,887
+That is Newton's third law.
+
+34
+00:01:01,361 --> 00:01:03,111
+With several thrusters placed around
+
+35
+00:01:03,123 --> 00:01:05,036
+the vehicle, timed pulses could
+
+36
+00:01:05,048 --> 00:01:06,348
+create a short push or
+
+37
+00:01:06,361 --> 00:01:07,098
+a rotation.
+
+38
+00:01:07,539 --> 00:01:08,989
+The gas supply is limited,
+
+39
+00:01:09,014 --> 00:01:10,077
+so the thrust would be
+
+40
+00:01:10,089 --> 00:01:11,677
+brief, and the car would
+
+41
+00:01:11,689 --> 00:01:12,727
+return to the road.
+
+42
+00:01:13,168 --> 00:01:15,543
+Tesla describes the Rocket configuration
+
+43
+00:01:15,555 --> 00:01:17,693
+as flight-capable, but not for
+
+44
+00:01:17,705 --> 00:01:20,005
+public roads. That claim still
+
+45
+00:01:20,018 --> 00:01:23,005
+needs a demonstrated, independently verified
+
+46
+00:01:23,018 --> 00:01:24,055
+production result.
+
+47
+00:01:24,482 --> 00:01:25,832
+So the simple picture is:
+
+48
+00:01:26,257 --> 00:01:28,007
+battery power drives the wheels,
+
+49
+00:01:28,282 --> 00:01:30,120
+aerodynamics help the tires grip,
+
+50
+00:01:30,395 --> 00:01:32,232
+and pressurized gas creates brief
+
+51
+00:01:32,245 --> 00:01:34,332
+reaction forces. The physics is
+
+52
+00:01:34,345 --> 00:01:37,320
+real; final production performance still
+
+53
+00:01:37,332 --> 00:01:38,645
+has to be demonstrated.

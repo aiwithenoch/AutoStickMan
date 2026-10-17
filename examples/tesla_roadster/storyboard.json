@@ -3,7 +3,12 @@
   "width": 720,
   "height": 1280,
   "fps": 24,
-  "burn_subtitles": false,
+  "burn_subtitles": true,
+  "caption_max_words": 5,
+  "caption_font_name": "Arial",
+  "caption_font_size": 10,
+  "caption_margin_v": 28,
+  "word_timings": "word_timings.json",
   "reference": "assets/reference.png",
   "scenes": [
     {
@@ -11,7 +16,7 @@
       "frame": "frames/01_intro.png",
       "audio": "audio/01.mp3",
       "narration": "So, how does a Tesla Roadster work? Let me explain.",
-      "caption": "So, how does a Tesla Roadster work? Let me explain."
+      "caption": "So how does a Tesla Roadster work? Let me explain."
     },
     {
       "id": "02_battery_motor",
