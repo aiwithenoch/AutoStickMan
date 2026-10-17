@@ -6,13 +6,9 @@ The rendered video is a keyframe flipbook animatic rather than full hand-drawn f
 
 ## Preview
 
-### Generated YouTube-style scene
+### YouTube-style storyboard image
 
-![Tesla Roadster stickman explainer cover](frames/01_intro.png)
-
-### Full storyboard
-
-![Tesla Roadster storyboard contact sheet](contact_sheet.jpg)
+<img src="../../assets/youtube_style_storyboard.png" alt="YouTube-style stickman storyboard: walking into a dining room and placing a bag down" width="100%" />
 
 ### Inline sample video
 
@@ -20,4 +16,4 @@ https://github.com/user-attachments/assets/2acaea92-e071-4d3a-a22e-e74cfaade0ab
 
 [Download the repository copy of the sample MP4](tesla_roadster_stickman_movie_brian.mp4)
 
-The contact sheet is only a visual index. The actual project contains 13 separate scene images in `frames/`, which are animated in sequence with Brian narration and captions.
+The README intentionally shows only this single YouTube-style image. The actual project still contains separate scene images in `frames/`, which are animated in sequence with Brian narration and captions.

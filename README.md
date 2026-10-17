@@ -8,17 +8,11 @@ The supplied cream-paper stickman image is the default visual reference. A user 
 
 ## Visual preview
 
-### Generated YouTube-style scene
+### YouTube-style storyboard image
 
-This is one of the actual vertical scene images used in the Tesla Roadster sample:
+This is the single horizontal storyboard image for the YouTube version. It is responsive and scales down to fit the README on smaller screens:
 
-![Tesla Roadster stickman explainer cover](examples/tesla_roadster/frames/01_intro.png)
-
-### Full storyboard
-
-The video is assembled from these separate standalone scene images:
-
-![Tesla Roadster full storyboard](examples/tesla_roadster/contact_sheet.jpg)
+<img src="assets/youtube_style_storyboard.png" alt="YouTube-style stickman storyboard: walking into a dining room and placing a bag down" width="100%" />
 
 ### Inline sample video
 
@@ -26,11 +20,7 @@ The complete sample is attached to GitHub so it renders as a player directly on 
 
 https://github.com/user-attachments/assets/2acaea92-e071-4d3a-a22e-e74cfaade0ab
 
-### Default style reference
-
-This is the default image reference used when a project does not provide its own style image:
-
-![AutoStickMan default cream-paper stickman style](assets/default_style_reference.png)
+The exact default generation reference is still preserved at `assets/default_style_reference.png`, but the README uses only the single YouTube-style image above.
 
 ## Install as a Codex skill
 

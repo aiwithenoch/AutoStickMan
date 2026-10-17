@@ -62,3 +62,11 @@
 - Verified the private repository README in an authenticated GitHub session: the generated cover image and full storyboard render, and GitHub converts the bare attachment URL into one `<video>` element with controls.
 - Playback verification: the rendered player resolved to an authenticated `private-user-images.githubusercontent.com` MP4 source, reported `readyState: 4`, and loaded the expected 99.004-second duration without opening the repository file viewer.
 - Current state: local `main` is clean and synchronized with `origin/main`; the versioned MP4 remains in the repository for installation/offline use, while the README uses the GitHub attachment for inline playback.
+
+## 2026-10-17T18:59:10+00:00 — Single responsive YouTube-style image
+
+- Objective: use exactly one image in the README, matching the supplied horizontal five-panel YouTube-style storyboard, and remove the vertical/TikTok-style image previews from the YouTube presentation.
+- Added `assets/youtube_style_storyboard.png`, copied byte-for-byte from the supplied `codex-clipboard-5812079d-4c57-4e19-bfa9-fdcf475ad5a1.png` asset at 2172x724.
+- Changed `README.md` and `examples/tesla_roadster/README.md` to show only that one image with responsive `<img width="100%">` markup. The inline GitHub video player remains unchanged. The default generation reference and individual frames remain available as package assets but are no longer displayed as README previews.
+- Verification: `git diff --check` passed, both README files contain exactly one image embed, and `cmp` confirmed the copied image matches the supplied file byte-for-byte.
+- Current state: image and README changes are unstaged and ready to commit and push.
