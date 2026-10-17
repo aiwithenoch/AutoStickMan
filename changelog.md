@@ -70,3 +70,9 @@
 - Changed `README.md` and `examples/tesla_roadster/README.md` to show only that one image with responsive `<img width="100%">` markup. The inline GitHub video player remains unchanged. The default generation reference and individual frames remain available as package assets but are no longer displayed as README previews.
 - Verification: `git diff --check` passed, both README files contain exactly one image embed, and `cmp` confirmed the copied image matches the supplied file byte-for-byte.
 - Current state: image and README changes are unstaged and ready to commit and push.
+
+## 2026-10-17T18:59:41+00:00 — Single-image README change verified
+
+- Committed as `a40a9f079cdf369890fde750c7eb0ec99d2c43ab` (`Use one responsive YouTube storyboard image`) and pushed to `origin/main`.
+- Verified GitHub's stored README contains the new `assets/youtube_style_storyboard.png` embed and the inline video attachment, with no vertical scene or contact-sheet embeds.
+- Verified the authenticated GitHub-rendered page has exactly one matching storyboard `<img>` and one `<video>` element; the local and remote branches are synchronized and clean.
