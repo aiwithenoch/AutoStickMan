@@ -159,3 +159,9 @@
 - Safety result: no credential-like tracked paths, common credential formats, or credential-like paths in repository history were detected by the pre-change scan.
 - Local state: `changelog.md` contains this record; the two older proportional-timing captioned files remain untracked and were not exposed or uploaded. `git diff --check` passed. The changelog update is ready to be committed and pushed.
 - Next step: commit the changelog record, push it to `origin/main`, then report the public repository link to the user.
+
+## 2026-10-17T20:32:05+00:00 — Public visibility verification complete
+
+- Committed the visibility record as `fa032473142aa126de24ca841e0a96b1945ad2a2` (`Record public repository visibility`) and pushed it to `origin/main`.
+- Final verification passed: local `main` tracks `origin/main`; `git ls-remote --heads origin main` matches `fa032473142aa126de24ca841e0a96b1945ad2a2`; GitHub reports `isPrivate: false` and `visibility: PUBLIC`; the public repository page returns HTTP 200.
+- The only local uncommitted items are the two pre-existing, intentionally untracked proportional-timing captioned files; they were not staged, committed, or uploaded.
