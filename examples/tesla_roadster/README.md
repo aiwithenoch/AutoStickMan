@@ -6,10 +6,18 @@ The rendered video is a keyframe flipbook animatic rather than full hand-drawn f
 
 ## Preview
 
+### Generated YouTube-style scene
+
+![Tesla Roadster stickman explainer cover](frames/01_intro.png)
+
+### Full storyboard
+
 ![Tesla Roadster storyboard contact sheet](contact_sheet.jpg)
 
-[▶ Open the complete Tesla Roadster sample video](tesla_roadster_stickman_movie_brian.mp4)
+### Inline sample video
 
-[Download the sample MP4](https://github.com/aiwithenoch/AutoStickMan/raw/refs/heads/main/examples/tesla_roadster/tesla_roadster_stickman_movie_brian.mp4)
+https://github.com/user-attachments/assets/2acaea92-e071-4d3a-a22e-e74cfaade0ab
+
+[Download the repository copy of the sample MP4](tesla_roadster_stickman_movie_brian.mp4)
 
 The contact sheet is only a visual index. The actual project contains 13 separate scene images in `frames/`, which are animated in sequence with Brian narration and captions.

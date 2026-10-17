@@ -8,30 +8,29 @@ The supplied cream-paper stickman image is the default visual reference. A user 
 
 ## Visual preview
 
+### Generated YouTube-style scene
+
+This is one of the actual vertical scene images used in the Tesla Roadster sample:
+
+![Tesla Roadster stickman explainer cover](examples/tesla_roadster/frames/01_intro.png)
+
+### Full storyboard
+
+The video is assembled from these separate standalone scene images:
+
+![Tesla Roadster full storyboard](examples/tesla_roadster/contact_sheet.jpg)
+
+### Inline sample video
+
+The complete sample is attached to GitHub so it renders as a player directly on this README. Use the controls in the player; it does not open the repository file viewer:
+
+https://github.com/user-attachments/assets/2acaea92-e071-4d3a-a22e-e74cfaade0ab
+
 ### Default style reference
 
 This is the default image reference used when a project does not provide its own style image:
 
 ![AutoStickMan default cream-paper stickman style](assets/default_style_reference.png)
-
-### Tesla Roadster sample storyboard
-
-The sample is made from separate standalone scene images. This contact sheet is only a preview of those individual frames:
-
-![Tesla Roadster standalone-frame storyboard](examples/tesla_roadster/contact_sheet.jpg)
-
-### Sample video
-
-Open or download the complete rendered sample:
-
-[▶ Open the Tesla Roadster sample video](examples/tesla_roadster/tesla_roadster_stickman_movie_brian.mp4)
-
-[Download the Tesla Roadster MP4](https://github.com/aiwithenoch/AutoStickMan/raw/refs/heads/main/examples/tesla_roadster/tesla_roadster_stickman_movie_brian.mp4)
-
-<video controls width="360" poster="https://github.com/aiwithenoch/AutoStickMan/raw/refs/heads/main/examples/tesla_roadster/contact_sheet.jpg">
-  <source src="https://github.com/aiwithenoch/AutoStickMan/raw/refs/heads/main/examples/tesla_roadster/tesla_roadster_stickman_movie_brian.mp4" type="video/mp4">
-  Your browser does not support embedded video. Use the links above.
-</video>
 
 ## Install as a Codex skill
 
@@ -91,6 +90,6 @@ The publish command is intentionally explicit. It does not store credentials in 
 
 `examples/tesla_roadster/` contains the complete reference run: researched workflow, 13 standalone frames, Brian voice clips, synchronized captions, and the finished video.
 
-[Tesla Roadster stickman movie](examples/tesla_roadster/tesla_roadster_stickman_movie_brian.mp4)
+[Download the repository copy of the Tesla Roadster MP4](examples/tesla_roadster/tesla_roadster_stickman_movie_brian.mp4)
 
 The original working files are preserved in the workspace; this repository adds the reusable package around them.

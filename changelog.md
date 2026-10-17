@@ -46,3 +46,12 @@
 - Verified `git ls-remote --heads origin main` matches the pushed commit and `gh repo view` still reports `isPrivate: true`.
 - Queried GitHub's stored README and confirmed it contains the default style image, storyboard contact sheet, MP4 links, and `<video>` fallback markup.
 - No media was regenerated or altered; this change only improves how the existing repository assets are presented.
+
+## 2026-10-17T18:55:57+00:00 — GitHub inline video attachment
+
+- Objective: replace the broken repository-file MP4 link in the README with a GitHub-native inline video player, while using an actual vertical YouTube-style scene image and the complete storyboard as the visual preview.
+- Diagnosis: the committed MP4 is valid H.264/AAC media, but GitHub's repository blob viewer returns the “can't show you the files right now” experience for this use. A repository `raw` URL is not the reliable README player source.
+- Failed attempt: the browser attachment flow was blocked because the local Brave Codex extension does not have permission to access file URLs. No file was uploaded through that browser path.
+- Media upload: uploaded the existing 5,207,306-byte H.264 MP4 through GitHub's authenticated `uploads.github.com/user-attachments/assets` endpoint for repository `aiwithenoch/AutoStickMan`. The private attachment URL is `https://github.com/user-attachments/assets/2acaea92-e071-4d3a-a22e-e74cfaade0ab`.
+- README changes: `README.md` and `examples/tesla_roadster/README.md` now show `frames/01_intro.png` as the generated YouTube-style cover, retain the full `contact_sheet.jpg`, and place the bare GitHub attachment URL on its own line so GitHub can render the native inline player. The repository MP4 remains available as a downloadable/versioned copy.
+- Verification: authenticated `gh api -i` returned `200 OK`, `Content-Type: video/mp4`, and the expected 5,207,306-byte content from the attachment URL. Local `git diff --check` passed; changes are ready to commit and push.
