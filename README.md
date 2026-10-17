@@ -6,6 +6,33 @@ AutoStickMan turns an idea or script into a fact-checked, stickman-style flipboo
 
 The supplied cream-paper stickman image is the default visual reference. A user can provide a different reference image for a project, or accept the default.
 
+## Visual preview
+
+### Default style reference
+
+This is the default image reference used when a project does not provide its own style image:
+
+![AutoStickMan default cream-paper stickman style](assets/default_style_reference.png)
+
+### Tesla Roadster sample storyboard
+
+The sample is made from separate standalone scene images. This contact sheet is only a preview of those individual frames:
+
+![Tesla Roadster standalone-frame storyboard](examples/tesla_roadster/contact_sheet.jpg)
+
+### Sample video
+
+Open or download the complete rendered sample:
+
+[▶ Open the Tesla Roadster sample video](examples/tesla_roadster/tesla_roadster_stickman_movie_brian.mp4)
+
+[Download the Tesla Roadster MP4](https://github.com/aiwithenoch/AutoStickMan/raw/refs/heads/main/examples/tesla_roadster/tesla_roadster_stickman_movie_brian.mp4)
+
+<video controls width="360" poster="https://github.com/aiwithenoch/AutoStickMan/raw/refs/heads/main/examples/tesla_roadster/contact_sheet.jpg">
+  <source src="https://github.com/aiwithenoch/AutoStickMan/raw/refs/heads/main/examples/tesla_roadster/tesla_roadster_stickman_movie_brian.mp4" type="video/mp4">
+  Your browser does not support embedded video. Use the links above.
+</video>
+
 ## Install as a Codex skill
 
 ```bash
@@ -67,4 +94,3 @@ The publish command is intentionally explicit. It does not store credentials in 
 [Tesla Roadster stickman movie](examples/tesla_roadster/tesla_roadster_stickman_movie_brian.mp4)
 
 The original working files are preserved in the workspace; this repository adds the reusable package around them.
-

@@ -31,3 +31,11 @@
 - Verification: `gh repo view aiwithenoch/AutoStickMan --json nameWithOwner,isPrivate,url,defaultBranchRef` returned `isPrivate: true`; `git ls-remote --heads origin main` returned the pushed commit; local branch tracks `origin/main` with no staged or unstaged changes.
 - Handoff: install with the README command by cloning the private repository and copying `skills/auto-stickman` into the agent's skills directory. The agent then asks for a custom reference or uses the default, researches each story, generates frames/audio, renders the MP4, and uses the explicit Composio publish adapter only after approval.
 - Deferred by design: no Instagram post was made during this task. The existing connected account was only discovered/inspected; the repository's publish command remains dry-run unless `--publish` is passed.
+
+## 2026-10-17T18:51:41+00:00 — README media preview fix
+
+- Objective: make the default style image, Tesla storyboard preview, and sample video clearly visible from the repository README instead of leaving the video as an easily missed plain link.
+- Changed files: `README.md` now embeds `assets/default_style_reference.png` and `examples/tesla_roadster/contact_sheet.jpg`, adds a browser video preview with an MP4 fallback, and provides both repository-relative and direct download links. `examples/tesla_roadster/README.md` now includes the storyboard preview and sample-video links.
+- Decision: retain the direct MP4 links because GitHub may sanitize or omit native `<video>` rendering in some README contexts, especially for private repositories. The links remain the reliable way to open or download the media.
+- Verification: confirmed all referenced image and MP4 files exist locally; reviewed the README diff for correct relative paths and fallback links.
+- Current state: README media changes are unstaged and ready to commit and push to the private `aiwithenoch/AutoStickMan` repository.
