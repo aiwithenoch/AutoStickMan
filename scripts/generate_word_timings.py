@@ -27,6 +27,53 @@ def caption_words(text: str) -> list[str]:
     return re.findall(r"\S+", text.strip())
 
 
+def normalized_word(text: str) -> str:
+    """Normalize punctuation for matching Edge TTS tokens to display words."""
+
+    return re.sub(r"[^\w']+", "", text).lower()
+
+
+def align_boundaries(boundaries: list[dict], display_words: list[str]) -> list[dict[str, float]]:
+    """Align display words with Edge TTS boundaries, including grouped boundaries.
+
+    Edge TTS can return one WordBoundary event for a short phrase such as
+    ``30 days``. The renderer needs one timing per display word, so split the
+    grouped interval evenly while preserving its overall spoken interval.
+    """
+
+    aligned: list[dict[str, float]] = []
+    display_index = 0
+    for boundary in boundaries:
+        boundary_words = re.findall(r"\S+", str(boundary["text"]).strip())
+        if not boundary_words:
+            continue
+        expected = [normalized_word(word) for word in boundary_words]
+        actual = [normalized_word(word) for word in display_words[display_index:display_index + len(expected)]]
+        if actual != expected:
+            raise SystemExit(
+                "Unable to align Edge TTS boundary "
+                f"{boundary['text']!r} with display words near "
+                f"{display_words[display_index:display_index + len(expected)]!r}"
+            )
+
+        start = float(boundary["start"])
+        end = float(boundary["end"])
+        duration = max(0.0, end - start)
+        step = duration / len(expected)
+        for offset in range(len(expected)):
+            word_start = start + step * offset
+            word_end = end if offset == len(expected) - 1 else start + step * (offset + 1)
+            aligned.append({"start": word_start, "end": word_end})
+        display_index += len(expected)
+
+    if display_index != len(display_words):
+        raise SystemExit(
+            "Edge TTS returned boundaries for "
+            f"{display_index} of {len(display_words)} display words"
+        )
+    return aligned
+
+
 async def fetch_word_boundaries(text: str, voice: str, rate: str, pitch: str) -> list[dict[str, float | str]]:
     communicate = edge_tts.Communicate(
         text,
@@ -83,14 +130,10 @@ def main() -> int:
         print(f"Fetching word timings for {scene.get('id', index)}", flush=True)
         boundaries = asyncio.run(fetch_word_boundaries(narration, args.voice, args.rate, args.pitch))
         display_words = caption_words(caption)
-        if len(boundaries) != len(display_words):
-            raise SystemExit(
-                f"Word count mismatch for scene {scene.get('id', index)}: "
-                f"Edge TTS returned {len(boundaries)} words, caption has {len(display_words)}"
-            )
+        aligned_boundaries = align_boundaries(boundaries, display_words)
 
         duration = probe_duration(audio)
-        last_end = float(boundaries[-1]["end"]) if boundaries else 0.0
+        last_end = float(aligned_boundaries[-1]["end"]) if aligned_boundaries else 0.0
         if last_end > duration + 0.15:
             raise SystemExit(
                 f"Word timing exceeds audio for scene {scene.get('id', index)}: "
@@ -98,7 +141,7 @@ def main() -> int:
             )
 
         words = []
-        for display_word, boundary in zip(display_words, boundaries):
+        for display_word, boundary in zip(display_words, aligned_boundaries):
             words.append({
                 "text": display_word,
                 "start": boundary["start"],

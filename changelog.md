@@ -165,3 +165,19 @@
 - Committed the visibility record as `fa032473142aa126de24ca841e0a96b1945ad2a2` (`Record public repository visibility`) and pushed it to `origin/main`.
 - Final verification passed: local `main` tracks `origin/main`; `git ls-remote --heads origin main` matches `fa032473142aa126de24ca841e0a96b1945ad2a2`; GitHub reports `isPrivate: false` and `visibility: PUBLIC`; the public repository page returns HTTP 200.
 - The only local uncommitted items are the two pre-existing, intentionally untracked proportional-timing captioned files; they were not staged, committed, or uploaded.
+
+## 2026-10-17T21:37:10+00:00 — Weight-loss explainer project started
+
+- Objective: create a new AutoStickMan vertical flipbook video about practical, general weight-management habits over 30 days, preserving the user's exact opening: `So you want to lose weight in 30 days? Here's what I want you to do. Make sure you save this video before you forget.` and ending with a save prompt plus `comment WEIGHT` call to action for the 30-day roadmap.
+- Selected visual reference: the previously approved repository default cream-paper stickman with bold black linework, orange tie, and orange satchel at `assets/default_style_reference.png`; no new custom image was supplied for this project.
+- Health-safety constraint: the narration will not promise a specific weight-loss amount or present individualized medical advice. It will distinguish sustainable general guidance from guarantees and include a clinician-safety caveat for relevant medical conditions, pregnancy, weight-affecting medicines, or disordered-eating history.
+- Research completed before narration: CDC healthy-weight guidance, CDC adult activity guidance, NIDDK eating/physical-activity guidance, and USDA MyPlate guidance were reviewed. Sources and claim wording will be recorded in `projects/weight_loss_30_day/research/sources.md`.
+- Project scaffold created at `projects/weight_loss_30_day/` with `input/`, `assets/`, `research/`, `frames/`, `audio/`, and `output/`. Image generation is in progress; no video has been published or posted to social media.
+
+## 2026-10-17T21:53:36+00:00 — Weight-loss video rendered and reviewed
+
+- Created 12 standalone frames in `projects/weight_loss_30_day/frames/` using the approved default reference. Generated 12 `en-US-BrianNeural` clips at `+0%` rate and `-1Hz` pitch.
+- Updated `scripts/generate_word_timings.py` to align Edge TTS grouped boundaries such as `30 days` with individual caption words by splitting the grouped interval while preserving the overall spoken timing. This keeps the exact user-requested opening and makes the reusable skill robust to grouped TTS boundaries.
+- Generated `projects/weight_loss_30_day/word_timings.json`; all 12 scenes aligned successfully. Rendered `projects/weight_loss_30_day/output/weight_loss_30_day_captioned.mp4` with burned captions and sidecar SRT.
+- Video verification passed: H.264/AAC, 720x1280, 24 fps, 132.379 seconds, 72 caption cues, maximum five words per cue, and visual spot checks at opening, drink swap, sleep/stress, roadmap, and CTA scenes.
+- Roadmap prepared at `projects/weight_loss_30_day/roadmap.md`; the publishing caption points to the eventual public GitHub path. No Instagram or other social post was made. The MP4 remains local pending the user's review.
