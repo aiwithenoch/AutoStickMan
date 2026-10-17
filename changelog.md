@@ -55,3 +55,10 @@
 - Media upload: uploaded the existing 5,207,306-byte H.264 MP4 through GitHub's authenticated `uploads.github.com/user-attachments/assets` endpoint for repository `aiwithenoch/AutoStickMan`. The private attachment URL is `https://github.com/user-attachments/assets/2acaea92-e071-4d3a-a22e-e74cfaade0ab`.
 - README changes: `README.md` and `examples/tesla_roadster/README.md` now show `frames/01_intro.png` as the generated YouTube-style cover, retain the full `contact_sheet.jpg`, and place the bare GitHub attachment URL on its own line so GitHub can render the native inline player. The repository MP4 remains available as a downloadable/versioned copy.
 - Verification: authenticated `gh api -i` returned `200 OK`, `Content-Type: video/mp4`, and the expected 5,207,306-byte content from the attachment URL. Local `git diff --check` passed; changes are ready to commit and push.
+
+## 2026-10-17T18:56:48+00:00 — Inline player verified on GitHub
+
+- Committed as `8c5cfa1cc14fc7941e63546dde5f0ffb9d649357` (`Embed sample video with GitHub attachment`) and pushed to `origin/main`.
+- Verified the private repository README in an authenticated GitHub session: the generated cover image and full storyboard render, and GitHub converts the bare attachment URL into one `<video>` element with controls.
+- Playback verification: the rendered player resolved to an authenticated `private-user-images.githubusercontent.com` MP4 source, reported `readyState: 4`, and loaded the expected 99.004-second duration without opening the repository file viewer.
+- Current state: local `main` is clean and synchronized with `origin/main`; the versioned MP4 remains in the repository for installation/offline use, while the README uses the GitHub attachment for inline playback.
