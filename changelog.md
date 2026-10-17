@@ -181,3 +181,9 @@
 - Generated `projects/weight_loss_30_day/word_timings.json`; all 12 scenes aligned successfully. Rendered `projects/weight_loss_30_day/output/weight_loss_30_day_captioned.mp4` with burned captions and sidecar SRT.
 - Video verification passed: H.264/AAC, 720x1280, 24 fps, 132.379 seconds, 72 caption cues, maximum five words per cue, and visual spot checks at opening, drink swap, sleep/stress, roadmap, and CTA scenes.
 - Roadmap prepared at `projects/weight_loss_30_day/roadmap.md`; the publishing caption points to the eventual public GitHub path. No Instagram or other social post was made. The MP4 remains local pending the user's review.
+
+## 2026-10-17T21:57:54+00:00 — Roadmap link published for review
+
+- Committed and pushed the reusable grouped-boundary timing fix and the roadmap as `fd53e69a17eb2bc2870b2ce66b091a31024957aa` (`Add weight loss roadmap and grouped timing support`).
+- Verified the public roadmap page and raw file both return HTTP 200: `https://github.com/aiwithenoch/AutoStickMan/blob/main/projects/weight_loss_30_day/roadmap.md`.
+- The generated video and project-specific media remain local and uncommitted so the user can review the preview before any video upload or social publication.
