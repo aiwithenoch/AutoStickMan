@@ -39,3 +39,10 @@
 - Decision: retain the direct MP4 links because GitHub may sanitize or omit native `<video>` rendering in some README contexts, especially for private repositories. The links remain the reliable way to open or download the media.
 - Verification: confirmed all referenced image and MP4 files exist locally; reviewed the README diff for correct relative paths and fallback links.
 - Current state: README media changes are unstaged and ready to commit and push to the private `aiwithenoch/AutoStickMan` repository.
+
+## 2026-10-17T18:52:02+00:00 — README media fix verified remotely
+
+- Committed as `03b77ea9d17144feabef8b77dc9c41478b6912f4` (`Show media previews in README`) and pushed to `origin/main`.
+- Verified `git ls-remote --heads origin main` matches the pushed commit and `gh repo view` still reports `isPrivate: true`.
+- Queried GitHub's stored README and confirmed it contains the default style image, storyboard contact sheet, MP4 links, and `<video>` fallback markup.
+- No media was regenerated or altered; this change only improves how the existing repository assets are presented.
