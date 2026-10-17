@@ -118,6 +118,21 @@
 - Successful approach: `scripts/generate_word_timings.py` uses the existing Edge TTS package with the exact `en-US-BrianNeural`, `+0%`, `-1Hz`, and per-scene narration settings to retrieve `WordBoundary` events. It wrote `examples/tesla_roadster/word_timings.json` for all 13 scenes and checked the timing against each existing audio duration.
 - Renderer change: `scripts/render_flipbook.py` now accepts `--word-timings` and automatically reads the manifest's `word_timings` file. When present, each caption cue begins at the first spoken word and ends at the last spoken word in that cue; the five-word limit and approved visual style remain unchanged. Proportional timing remains the fallback when no timing file is supplied.
 - Output: rendered `examples/tesla_roadster/tesla_roadster_stickman_movie_brian_captioned_synced.mp4` and `..._captioned_synced.srt`, leaving both previous MP4s unchanged.
+
+## 2026-10-17T20:28:56+00:00 — Public visibility request started
+
+- Objective: change the existing `aiwithenoch/AutoStickMan` GitHub repository from private to public because the user decided community members should access it without individual invitations.
+- Starting state: local `main` tracks `origin/main`; the remote repository is currently private. Two older, intentionally untracked captioned media files remain local and are not part of the remote repository. The repository contains the installable skill, documentation, sample frames, audio, and canonical synchronized sample video already committed to GitHub.
+- Safety check planned: inspect tracked filenames and scan tracked text for credential-like material before changing visibility, because making a repository public exposes its committed history and downloadable assets.
+- Planned external action: use the authenticated GitHub CLI to change only repository visibility to public; do not alter code, branches, collaborators, or publishing settings.
+
+## 2026-10-17T20:29:49+00:00 — Repository made public
+
+- Completed the requested visibility change with `gh repo edit aiwithenoch/AutoStickMan --visibility public --accept-visibility-change-consequences`.
+- Verification: `gh repo view aiwithenoch/AutoStickMan --json nameWithOwner,isPrivate,visibility,url` returned `isPrivate: false` and `visibility: PUBLIC`; an unauthenticated `curl` request to the repository page returned HTTP 200.
+- Safety verification: tracked-path scan found no `.env`, secret, credential, token, private-key, or API-key-like paths; tracked-text scan found no common AWS, GitHub-token, OpenAI-key, private-key, or Slack-token formats; repository history contained no credential-like paths.
+- Documentation state: the README already uses the public clone URL and does not require invitation-specific installation instructions. No code, media, branch protection, collaborators, or publishing settings were changed.
+- Current state: `https://github.com/aiwithenoch/AutoStickMan` is public. The two older captioned files remain untracked locally and were not exposed by this change. The changelog entry is being committed separately so the repository records this release-state change.
 - Verification passed: 53 cues, maximum five words per cue, maximum SRT-vs-word-boundary difference `0.001s`, H.264/AAC, 720x1280, 24 fps, 99.004 seconds, and `git diff --check`. The synchronized MP4 was opened in Codex for review.
 - Current state: synchronized local version is ready for the user. GitHub has not been updated and the new files are not committed yet, pending confirmation that this timing now matches the voice.
 
@@ -136,3 +151,11 @@
 - Remote verification passed: `git ls-remote --heads origin main` matches the commit; `gh repo view aiwithenoch/AutoStickMan` reports the repository is still private; the authenticated stored README contains the new synchronized attachment URL, `generate_word_timings.py` instructions, `word_timings.json`, and the synchronized MP4 download link.
 - The only remaining local untracked files are the earlier proportional-timing captioned MP4 and SRT, intentionally excluded because they do not match the voice. The committed and pushed synchronized files are the canonical sample.
 - Handoff: install/update with `git pull` or reclone `https://github.com/aiwithenoch/AutoStickMan.git`; the skill now requires word-boundary timing before burned captions are considered voice-synchronized.
+
+## 2026-10-17T20:31:05+00:00 — Public visibility final handoff
+
+- Final state: `https://github.com/aiwithenoch/AutoStickMan` is public (`isPrivate: false`), and its unauthenticated GitHub page returned HTTP 200.
+- Completed action: changed only the GitHub repository visibility; no repository code, media, branch rules, collaborators, or social publishing settings were modified.
+- Safety result: no credential-like tracked paths, common credential formats, or credential-like paths in repository history were detected by the pre-change scan.
+- Local state: `changelog.md` contains this record; the two older proportional-timing captioned files remain untracked and were not exposed or uploaded. `git diff --check` passed. The changelog update is ready to be committed and pushed.
+- Next step: commit the changelog record, push it to `origin/main`, then report the public repository link to the user.
