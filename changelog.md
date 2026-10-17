@@ -129,3 +129,10 @@
 - GitHub sample upload: the first raw upload request failed with `Invalid name for request` because it supplied the wrong repository identifier/form. The corrected request used the numeric REST repository ID, filename/content-type query parameters, and raw MP4 bytes; it succeeded with attachment URL `https://github.com/user-attachments/assets/1eb85865-25a0-4848-b268-0e144980f31a`. A HEAD check returned the authenticated GitHub user-asset redirect for the MP4.
 - Verification before commit: Python compilation passed for all scripts; skill quick validation returned `Skill is valid!`; project scaffold smoke test produced `word_timings: word_timings.json`; `git diff --check` passed; README references point to the synchronized attachment and download; the local synchronized render already passed 53-cue, five-word, 0.001-second boundary validation and H.264/AAC media checks.
 - Next step: stage only the intended skill, documentation, timing data, synchronized media, and changelog files; commit and push to `origin/main`; verify remote commit and private repository state.
+
+## 2026-10-17T20:02:29+00:00 — Skill update pushed and verified
+
+- Committed the synchronized-caption workflow as `97cd259577751b39fe7ae1cdd4f180ea1ab14c13` (`Synchronize captions to voice timing`) and pushed it to `origin/main`.
+- Remote verification passed: `git ls-remote --heads origin main` matches the commit; `gh repo view aiwithenoch/AutoStickMan` reports the repository is still private; the authenticated stored README contains the new synchronized attachment URL, `generate_word_timings.py` instructions, `word_timings.json`, and the synchronized MP4 download link.
+- The only remaining local untracked files are the earlier proportional-timing captioned MP4 and SRT, intentionally excluded because they do not match the voice. The committed and pushed synchronized files are the canonical sample.
+- Handoff: install/update with `git pull` or reclone `https://github.com/aiwithenoch/AutoStickMan.git`; the skill now requires word-boundary timing before burned captions are considered voice-synchronized.
