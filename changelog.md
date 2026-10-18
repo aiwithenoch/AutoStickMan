@@ -284,3 +284,10 @@
 - Updated `scripts/create_project.py` so new projects include a `qa/` directory and print the visual review step.
 - Updated `README.md` to document mandatory frame/video visual QA and the default absence of decorative motion graphics.
 - The reusable skill changes are ready for the public repository; generated project media remains untracked and is intentionally excluded from this update.
+
+## 2026-10-18T10:21:20+00:00 — Published mandatory visual QA rules
+
+- Commit `d3e3b51` (`Require visual QA for generated videos`) was pushed to `origin/main` on the public `AutoStickMan` repository.
+- Published `skills/auto-stickman/SKILL.md`, `scripts/create_project.py`, `README.md`, and `changelog.md`.
+- Verified before push: `git diff --check`, `python3 -m py_compile scripts/create_project.py`, `python3 scripts/create_project.py --help`, and Remotion `npm run lint` with the configured Node runtime.
+- Intentionally excluded all untracked generated videos, frames, audio, QA screenshots, and project folders from this push.
