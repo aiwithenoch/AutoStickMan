@@ -187,3 +187,100 @@
 - Committed and pushed the reusable grouped-boundary timing fix and the roadmap as `fd53e69a17eb2bc2870b2ce66b091a31024957aa` (`Add weight loss roadmap and grouped timing support`).
 - Verified the public roadmap page and raw file both return HTTP 200: `https://github.com/aiwithenoch/AutoStickMan/blob/main/projects/weight_loss_30_day/roadmap.md`.
 - The generated video and project-specific media remain local and uncommitted so the user can review the preview before any video upload or social publication.
+
+## 2026-10-17T22:14:00+00:00 — Real frame-animation preview started
+
+- Objective: create a first true Remotion-based animation preview from the existing twelve-frame weight-loss story, preserving the approved stickman artwork, Brian voice, and voice-synchronized captions while adding controlled frame-level motion.
+- Starting state: the existing FFmpeg-rendered video and all source frames/audio remained unchanged. No Remotion project existed. A new project was scaffolded at `projects/weight_loss_30_day/remotion/`.
+- Setup: the initial Remotion dependency installation failed because the machine had only 117 MB free. After confirming the capacity issue, only rebuildable npm/Brave/Codex cache contents were cleared; project files and media were not removed. The machine now has approximately 4.2 GB free, and Remotion dependencies installed successfully.
+- Preview state: Remotion Studio is running at `http://localhost:3020` and is open in the Codex panel before composition editing, per the Remotion workflow.
+- Planned implementation: use the existing frames as hard-cut flipbook pages with subtle deterministic pan/scale/hand-drawn drift, place each Brian audio clip on its scene, and render captions from `word_timings.json` in maximum-five-word groups with no box.
+- Deferred: no new AI-generated character poses are being introduced in this first preview; the goal is to let the user judge clean frame motion before adding more complex multi-pose animation.
+
+## 2026-10-17T22:29:00+00:00 — Real frame-animation preview rendered
+
+- Implemented `projects/weight_loss_30_day/remotion/src/Composition.tsx` as a Remotion composition named `WeightLossLiveFrames`. It sequences all twelve existing story frames with hard flipbook cuts, a very small deterministic pan/scale drift, per-scene Brian audio, and captions built from the existing word timings in groups of no more than five words.
+- Added the Remotion project and local preview assets under `projects/weight_loss_30_day/remotion/`, including `public/frames/`, `public/audio/`, `public/data/`, `package.json`, and the TypeScript configuration.
+- Verification passed: `npm run lint`; Remotion render completed with H.264 video plus AAC audio; `ffprobe` reports 720x1280, 24 fps, 132.544 seconds. Spot checks of opening, middle, and CTA frames confirmed the artwork remains intact, captions have no box, and the CTA stays readable.
+- Output: `projects/weight_loss_30_day/remotion/output/weight_loss_30_day_live_frames_preview.mp4`. The MP4 was opened in Codex for user review.
+- Current limitation: this preview animates the complete illustrated frames as clean live pages; it does not yet redraw body parts into new walking/gesture poses. That more advanced version requires additional consistent keyframes or layered character artwork and is intentionally deferred until the user approves this motion direction.
+
+## 2026-10-18T06:54:12+00:00 — Tesla real-motion proof of concept started
+
+- Objective: respond to the user's clarification that the reference video contains genuine in-scene animation, then produce a fast Tesla Roadster test that moves the illustrated character/vehicle rather than only applying a page-level pan and zoom.
+- Starting state: the Tesla project already contains the approved cream-paper stickman artwork at `examples/tesla_roadster/frames/01_intro.png`, Brian narration at `examples/tesla_roadster/audio/01.mp3`, and the existing Remotion preview project under `projects/weight_loss_30_day/remotion/`. The previous Remotion test was intentionally limited to whole-frame motion.
+- Investigation: inspected the supplied reference video with FFprobe and an early/middle/late contact sheet. The reference is a 9:16 animated short with changing facial/pose states, object motion, camera movement, and burned captions; it is not a slideshow of static images.
+- Attempted external image-to-video test: quoted and submitted the exact Tesla intro frame to the configured Refract/Seedance 2.0 Fast route at 480p, 5 seconds, no generated audio. The quote was up to 81 credits; submission completed and the provider job reached `completed`, but the returned content path is a private proxy URL that cannot be fetched from this local shell without the originating browser session. No provider secret was written to the repository or changelog.
+- Next implementation step: create a local Remotion proof-of-concept using the existing Tesla frame, Brian audio, deterministic camera motion, animated line-art motion accents, car-light/wheel activity, and caption timing. Keep it as a review artifact; do not replace the canonical Tesla video or push generated output until the user approves the direction.
+
+## 2026-10-18T06:58:00+00:00 — Tesla real-motion proof of concept rendered
+
+- Implemented `projects/weight_loss_30_day/remotion/src/TeslaIntro.tsx` and registered `TeslaIntroMotionTest` in `src/Root.tsx`. The test uses the approved Tesla intro drawing and Brian narration, then adds deterministic in-scene motion cues: blink state, pointing-hand motion echoes, bag/tie sway, pulsing headlight glints, rotating wheel marks, moving airflow strokes, and a slow camera push/bob. Captions remain word-timing based and never exceed five words.
+- Added copied review assets at `projects/weight_loss_30_day/remotion/public/tesla/01_intro.png` and `.../01.mp3`; the canonical Tesla source files were not changed.
+- Verification: `npm run lint` passed; `npx remotion render TeslaIntroMotionTest output/tesla_intro_real_motion_test.mp4 --codec=h264 --concurrency=2` passed; FFprobe reports H.264/AAC, 720x1280, 24 fps, 4.181 seconds, 1 MB. A five-frame contact sheet was inspected and the MP4 was queued in Codex for playback.
+- Review limitation: this local test is a layered 2D animation proof, not the full AI image-to-video deformation seen in the supplied reference. A Refract/Seedance real image-to-video job also completed, but its private provider result could not be downloaded in this shell because the originating browser session owns the content proxy. Do not treat that external result as the canonical asset until it is viewable and approved.
+
+## 2026-10-18T07:00:00+00:00 — Full Tesla motion video started
+
+- Objective: apply the approved Tesla intro motion treatment to all thirteen scenes and render a reviewable full-length video with the existing Brian narration and voice-synchronized captions.
+- Planned implementation: add the Tesla frame/audio/timing assets to the Remotion public tree; sequence the existing scene drawings with hard scene changes and a small live-page camera move; add restrained scene-specific animated ink cues for energy flow, wheel torque, active aero, fan suction, thruster exhaust/reaction force, finite-gas landing, and recap arrows; preserve the existing fact-checked narration and claim-vs-tested wording.
+- Preservation: the original FFmpeg Tesla videos and all source frames/audio remain unchanged. The full motion render will be a new review artifact and will not replace or publish the canonical sample until approved.
+
+## 2026-10-18T07:05:00+00:00 — Full Tesla render storage failure and recovery
+
+- First render command: `npx remotion render TeslaFullMotion output/tesla_full_motion.mp4 --codec=h264 --concurrency=4`.
+- Failure 1: rendering stopped at frame 100 because the composition referenced `tesla/02_battery_motor_cutaway.png` while the copied assets correctly lived under `public/tesla/frames/`. Fixed `TeslaFull.tsx` to preserve the storyboard's `frames/` path; `npm run lint` passed afterward.
+- Failure 2: the corrected render reached frame 167/2383 and stopped with `ENOSPC: no space left on device` while Remotion was writing temporary render frames. The disk had only 162 MB free. No source or project files were removed.
+- Recovery: ran the approved mac-cache-cleanup dry run first, then the same routine. It cleared approximately 3,127 MB of regenerable caches (npm, Codex runtimes, Node, browser/app cache and logs) and restored approximately 3.2 GB free. User data, project files, logins, and app internals were not targeted.
+- Next step: rerender with lower Remotion concurrency and JPEG quality to reduce temporary storage, then inspect the completed MP4 before handoff.
+
+## 2026-10-18T07:18:00+00:00 — Full Tesla motion video rendered and verified
+
+- Successful render command: `npx remotion render TeslaFullMotion output/tesla_full_motion.mp4 --codec=h264 --concurrency=2 --image-format=jpeg --jpeg-quality=55`.
+- Output: `projects/weight_loss_30_day/remotion/output/tesla_full_motion.mp4` — H.264/AAC, 720x1280, 24 fps, 99.307 seconds, approximately 31 MB.
+- Caption verification passed: 13 scenes, 53 caption cues, maximum five words per cue, and total source narration timing of 99.024 seconds. Captions are burned into the video and use the existing Brian voice timing.
+- Visual verification passed by inspecting a generated contact sheet across the video. Scene-specific overlays are visible for battery/motor flow, aero, thrusters, landing, and recap while the approved drawings and caption placement remain intact.
+- Current limitation: this is the local layered 2D motion version—animated overlays, object cues, camera movement, and scene changes over the approved drawings—not full generative character deformation. The source frames, original videos, and canonical assets remain unchanged.
+
+## 2026-10-18T07:32:00+00:00 — Tesla motion pass revised for semantic scene flow
+
+- User review identified that the first full render used decorative arrows and particles that were not consistently anchored to the illustrated objects or narration.
+- Revised `projects/weight_loss_30_day/remotion/src/TeslaFull.tsx`: removed the generic floating-arrow treatment; added scene-specific camera paths and restrained anchored motion for the battery/motor, airflow, underbody fan, pressure tank/nozzle, thruster exhaust, gauge, claim/tested icons, and recap callouts. Existing source diagrams remain the visual source of truth.
+- Verification: `npm run lint` passed. Render command `npx remotion render TeslaFullMotion output/tesla_full_motion_v2.mp4 --codec=h264 --concurrency=2 --image-format=jpeg --jpeg-quality=55` completed successfully.
+- Output: `projects/weight_loss_30_day/remotion/output/tesla_full_motion_v2.mp4` — H.264/AAC, 720x1280, 24 fps, 99.307 seconds, approximately 31.4 MB.
+- Caption verification passed again: 13 scenes, 53 cues, maximum five words per cue, source timing 99.024 seconds. An 8-second contact sheet was inspected across the full cut; the revised visual order now follows the narrated explanation.
+- The previous `tesla_full_motion.mp4` is retained for comparison; the revised V2 is the recommended review file. Neither output has been pushed or published.
+
+## 2026-10-18T07:45:00+00:00 — Friend-collapse first-aid story started
+
+- Objective: start the complete AutoStickMan workflow for the user's story beginning, `So your friend just collapsed, and you're the only one around to help. Here's what to do.`
+- Safety scope: this is general adult bystander guidance for a sudden collapse. The story explicitly branches between cardiac arrest signs (unresponsive and not breathing normally/only gasping), an unresponsive person who is breathing normally, and a likely faint with recovery/red flags. It uses local emergency services rather than assuming a country-specific number.
+- Research completed before production writing: American Red Cross responsiveness/breathing guidance, American Heart Association cardiac-arrest treatment and CPR technique, NHS fainting guidance, and MedlinePlus unconsciousness/fainting guidance. The claim ledger is recorded in `projects/friend_collapsed_first_aid/research/sources.md`.
+- Created `projects/friend_collapsed_first_aid/` with a 12-scene storyboard, approved narration, medical-safety choices, and a scene-by-scene animation plan in `animation_plan.md`. The project uses the approved AutoStickMan reference at `assets/reference.png`.
+- Next steps: generate the twelve standalone portrait frames, generate Brian voice clips, derive word timings, build the Remotion composition with branch-specific motion, render a review MP4, and verify captions/media before handoff. No medical content has been published or posted.
+
+## 2026-10-18T08:00:52+00:00 — Friend-collapse first-aid review video rendered
+
+- Implemented `projects/weight_loss_30_day/remotion/src/CollapseFirstAid.tsx` and registered `CollapseFirstAidMotion` in `projects/weight_loss_30_day/remotion/src/Root.tsx`.
+- Copied the twelve standalone frames, twelve Brian MP3 clips, storyboard, and word timings into `projects/weight_loss_30_day/remotion/public/collapse_first_aid/` for the Remotion composition.
+- Motion design follows the story rather than adding generic movement: the helper/friend establish the collapse; hazards pulse during the scene check; the shoulder check has a single tap gesture; breathing uses a one-way ten-second indicator; the call scene connects the phone and AED; CPR includes hand placement and compress/recoil motion; the AED scene shows a clear-space ring; recovery and waking scenes use breathing/steadying cues; red flags appear sequentially; and the final scene resolves with responder handoff.
+- Verification command: `npm run lint` passed in `projects/weight_loss_30_day/remotion`.
+- Render command: `npx remotion render CollapseFirstAidMotion output/friend_collapsed_first_aid_motion.mp4 --codec=h264 --concurrency=2 --image-format=jpeg --jpeg-quality=55`.
+- Output: `projects/weight_loss_30_day/remotion/output/friend_collapsed_first_aid_motion.mp4`, copied for project review to `projects/friend_collapsed_first_aid/output/friend_collapsed_first_aid_motion.mp4`. FFprobe reports H.264/AAC, 720x1280, 24 fps, 133.141 seconds, approximately 29.5 MB.
+- Caption/media QA passed: 12 scenes, 76 caption groups, maximum five words per group, 132.792 seconds of source audio timing, all frame/audio assets present, and a full-video contact sheet was visually inspected. The MP4 was opened in Codex for playback.
+- Medical claim scope remains general adult bystander guidance; local emergency services and dispatcher instructions are used. The output is a review artifact, not a substitute for CPR training, and has not been published or posted.
+
+## 2026-10-18T08:10:02+00:00 — Friend-collapse clean overlay pass rendered
+
+- User requested removal of the added animated circles and graphics. Removed the Remotion overlay layer from `projects/weight_loss_30_day/remotion/src/CollapseFirstAid.tsx`: no pulse rings, motion strokes, timer badge, rhythm badge, `CLEAR` label, or other added SVG indicators are rendered.
+- Kept the approved standalone frames, hard scene cuts, subtle page/camera movement, Brian narration, and voice-synchronized captions. Any simple icons already drawn inside the source illustrations remain part of those approved frames.
+- Verification: `npm run lint` passed. Rendered with `npx remotion render CollapseFirstAidMotion output/friend_collapsed_first_aid_clean.mp4 --codec=h264 --concurrency=1 --image-format=jpeg --jpeg-quality=45`.
+- Output: `projects/weight_loss_30_day/remotion/output/friend_collapsed_first_aid_clean.mp4`, copied to `projects/friend_collapsed_first_aid/output/friend_collapsed_first_aid_clean.mp4`. FFprobe reports H.264/AAC, 720x1280, 24 fps, 133.141 seconds, approximately 28 MB. A full-video contact sheet was visually inspected and the clean MP4 was opened in Codex for playback.
+
+## 2026-10-18T10:19:02+00:00 — Mandatory visual QA added to AutoStickMan skill
+
+- Objective: ensure the agent always visually verifies generated artwork instead of trusting a successful image-generation or render API response.
+- Updated `skills/auto-stickman/SKILL.md` with a mandatory screenshot gate for every generated frame, a batch contact-sheet review, regeneration rules for incorrect frames, post-render screenshot/video inspection, and the clean-overlay default requested by the user.
+- Updated `scripts/create_project.py` so new projects include a `qa/` directory and print the visual review step.
+- Updated `README.md` to document mandatory frame/video visual QA and the default absence of decorative motion graphics.
+- The reusable skill changes are ready for the public repository; generated project media remains untracked and is intentionally excluded from this update.

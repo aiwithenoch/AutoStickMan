@@ -6,6 +6,8 @@ AutoStickMan turns an idea or script into a fact-checked, stickman-style flipboo
 
 The supplied cream-paper stickman image is the default visual reference. A user can provide a different reference image for a project, or accept the default.
 
+Visual QA is mandatory: the agent screenshots and inspects every generated frame, reviews a batch contact sheet for consistency, and checks the rendered MP4 before declaring the video complete. Clean frame/page motion is the default; decorative circles, arrows, pulses, badges, and other graphic overlays are added only when explicitly requested.
+
 ## Visual preview
 
 ### YouTube-style storyboard image
@@ -45,7 +47,8 @@ If the agent is already working inside this repository, it can read `skills/auto
 6. Generates `en-US-BrianNeural` narration by default when Edge TTS is available.
 7. Generates Edge TTS word timings so captions follow the voice's real cadence and pauses.
 8. Uses the included renderer to make a 9:16 H.264/AAC flipbook animatic.
-9. Optionally publishes an approved MP4 as an Instagram Reel through Composio.
+9. Screenshots and visually reviews the generated frames and final render before handoff.
+10. Optionally publishes an approved MP4 as an Instagram Reel through Composio.
 
 Generation is preview-first. Instagram publishing is never triggered merely because a video was generated; it requires a connected account and an explicit publish action.
 

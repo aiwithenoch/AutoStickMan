@@ -19,6 +19,7 @@ At the beginning of each project, ask one concise question:
 - If the user does not supply one, use `assets/default_style_reference.png` from this repository.
 - Do not silently replace the chosen reference with a different style. Preserve its palette, line weight, character proportions, background treatment, and level of detail.
 - Generate one standalone image per scene. Never create a contact sheet or multi-panel storyboard as the actual video artwork.
+- Use clean frame/page motion by default. Do not add decorative circles, arrows, pulses, badges, or other graphic overlays unless the user explicitly requests them.
 
 ## Mandatory research and fact-checking
 
@@ -48,7 +49,8 @@ project/
 ├── storyboard.json
 ├── frames/
 ├── audio/
-└── output/
+├── output/
+└── qa/
 ```
 
 Keep the user's original script unchanged in `input/story.md`. Put rewrites and fact-check notes in separate files.
@@ -76,6 +78,20 @@ Use the available image-generation tool with the selected `assets/reference.png`
 
 Ask image generation for key poses and diagrams, not for a complete video. Add deterministic captions later if needed; generated scientific text is unreliable.
 
+### 3A. Mandatory screenshot review gate
+
+Never accept an image-generation result only because the generation tool reports success. The agent must visually inspect the generated artwork before using it in the video.
+
+For every generated frame:
+
+1. Open the full-resolution image with the available image-preview or screenshot tool (`view_image` in Codex, or the equivalent in another coding agent).
+2. Check the requested character, pose, object, scene geography, crop, aspect ratio, reference style, unwanted text, logos, watermarks, extra characters, and unexplained graphic marks.
+3. For a multi-scene batch, create a temporary QA contact sheet and inspect it for continuity, duplicate scenes, inconsistent characters, and abrupt style changes. The contact sheet is QA evidence only; it is never the video artwork.
+4. If any frame is wrong or ambiguous, regenerate or revise that frame before generating audio or rendering. Do not pass a known-bad frame downstream.
+5. Save the contact sheet or representative screenshots under the project's `qa/` directory when practical, and record the visual review in the handoff.
+
+The same gate applies after rendering: extract screenshots at the opening, every scene boundary or representative scene sample, caption-heavy moments, and the ending; inspect them visually; then open the MP4 preview and verify that captions, audio flow, framing, and motion match the storyboard. A successful render command is not visual QA.
+
 ### 4. Voiceover
 
 Use `en-US-BrianNeural` with Edge TTS by default when it is available. Generate separate audio clips per scene so the renderer can time each frame to its narration. If the requested voice is unavailable, report that before substituting another voice.
@@ -99,12 +115,15 @@ The renderer creates a 24 fps 9:16 H.264/AAC animatic with a restrained camera m
 
 Check:
 
+- screenshots/contact sheets confirm that every generated frame is the intended scene and matches the reference;
 - the first spoken line and first frame match;
 - every scene is understandable without a random visual jump;
 - audio and visual beats remain synchronized;
 - the chosen reference style is visible in every frame;
 - factual caveats are audible or visible where needed;
 - the final file has the intended dimensions and both video and audio streams.
+
+Do not report the video as complete until the screenshot/video review passes. If the user asks for no animation graphics, remove all added circles, arrows, pulses, badges, and labels before rendering the replacement.
 
 This renderer is a keyframe animatic. For smoother motion, add two to six in-between drawings around walking, wheel rotation, fan spin, airflow, or thruster pulses and list them as additional scenes or frame variants.
 

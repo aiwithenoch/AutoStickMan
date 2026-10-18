@@ -25,7 +25,7 @@ def main() -> int:
     if project.exists() and any(project.iterdir()) and not args.force:
         raise SystemExit(f"Refusing to overwrite non-empty project: {project}")
 
-    for directory in ("input", "assets", "research", "frames", "audio", "output"):
+    for directory in ("input", "assets", "research", "frames", "audio", "output", "qa"):
         (project / directory).mkdir(parents=True, exist_ok=True)
 
     source_script = args.script.resolve() if args.script else None
@@ -69,6 +69,7 @@ def main() -> int:
     print(f"2. Add ordered scenes to {project / 'storyboard.json'}")
     print(f"3. Generate frames in {project / 'frames'} and Brian audio in {project / 'audio'}")
     print(f"4. Render with scripts/render_flipbook.py")
+    print(f"5. Save and inspect visual QA screenshots/contact sheets in {project / 'qa'}")
     return 0
 
 
